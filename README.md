@@ -120,4 +120,27 @@ const formik = useFormik({
 }
 ```
 
-### To make sure the error is shown only for visited fields
+> To make sure the error is shown only for visited fields, add the `onBlur` prop to the input fields with the value `formik.handleBlur`.
+
+```html
+<input
+    type="text"
+    name="name"
+    id="name"
+    onChange={formik.handleChange}
+    value={formik.values.name}
+    onBlur={formik.handleBlur}
+    placeholder="Emelia Erickson"
+    className=""
+/>
+```
+
+We can keep track of the visited fields using the `touched` property of the formik instance.
+
+```tsx
+{
+    formik.touched.name && formik.errors.name ? (
+        <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+    ) : null
+}
+```
