@@ -144,3 +144,47 @@ We can keep track of the visited fields using the `touched` property of the form
     ) : null
 }
 ```
+
+## Yup
+
+To make the form validation more robust, we can use the Yup library. Yup is a JavaScript schema builder for value parsing and validation.
+
+### Install Yup
+
+```bash
+npm install yup
+```
+
+### Import Yup
+
+```ts
+import * as Yup from "yup";
+```
+
+### Create a validation schema
+
+```ts
+const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    password: Yup.string().required("Password is required"),
+});
+```
+
+The `object` method of Yup is used to create a schema object. The schema object is used to define the validation rules for the form fields.
+
+### Pass the validation schema to the `useFormik` hook
+
+```ts
+const formik = useFormik({
+    initialValues: {
+        name: "",
+        email: "",
+        password: "",
+    },
+    onSubmit: (values) => {
+        console.log("Values: ", values);
+    },
+    validationSchema: validationSchema,
+});
+```

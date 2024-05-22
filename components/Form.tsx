@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const initialValues = {
   name: "",
@@ -42,11 +43,24 @@ const validate = (values: any) => {
   return errors;
 }
 
+const validationSchema = Yup.object({
+  name: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email format").required("Required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters long")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(/[@$!%*?&]/, "Password must contain at least one special character")
+    .required("Required"),
+});
+
 const Form = () => {
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate,
+    // validate,
+    validationSchema,
   });
   return (
     <form onSubmit={formik.handleSubmit} className="space-y-4 md:space-y-6">
