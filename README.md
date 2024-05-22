@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# React Formik
 
-## Getting Started
+## What?
 
-First, run the development server:
+Formik is a small library that helps you deal with forms in React. Formik keeps track of form's state and handles form submission.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Why?
+
+1. Managing form data or form state
+2. Form submission
+3. Form validation and displaying error messages
+
+## How to use formik?
+
+### Import the `useFormik` hook
+
+```ts
+import { useFormik } from "formik";
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Create a formik instance
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```ts
+const formik = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
+    });
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The initialValues 'name', 'email', 'password' correspond to the name attribute of the input fields.
 
-## Learn More
+### Add the onChange and value props to the input fields
 
-To learn more about Next.js, take a look at the following resources:
+```html
+<form>
+    <input
+        type="password"
+        name="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+    />
+    <button type="submit">Submit</button>
+</form>
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `formik.values.password` is the value of the input field. And password is the name attribute of the input field.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `handleChange` is a function (formik helper) that updates the form state.
 
-## Deploy on Vercel
+- `formik.values` is an object that contains the form state and will give us access to the form data.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Add the onSubmit event to the form
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```html
+<form onSubmit={formik.handleSubmit}>
+</form>
+```
+
+- `formik.handleSubmit` is a function that handles form submission.
+
+### Add the onSubmit function to the formik instance
+
+```ts
+const formik = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
+        onSubmit: (values) => {
+            console.log(values);
+        },
+    });
+```
+
+- `values` is an object that contains the form data that we were referring to using `formik.values`.
+
+### Validate the form
+
+Formik lets you define a validation function that will run when the form is submitted. This validation function needs to be assigned to the validate property of the formik instance in the `useFormik` hook.
+
+```ts
+const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      console.log("Values: ", values);
+    },
+    validate: (values) => {
+      // errors.name, errors.email, errors.password
+      //name, email, password are the name attributes of the input fields
+      const errors: any = {};
+      if (!values.name) {
+        errors.name = "Required";
+      }
+      if (!values.email) {
+        errors.email = "Required";
+      } 
+      if (!values.password) {
+        errors.password = "Required";
+      }
+      return errors;
+    },
+  });
+```
+
+### Display the error messages
+
+```tsx
+{
+    formik.errors.name ? (
+        <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+    ) : null
+}
+```
+
+### To make sure the error is shown only for visited fields
