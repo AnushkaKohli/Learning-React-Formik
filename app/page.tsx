@@ -1,4 +1,6 @@
 import Form from "@/components/Form";
+import NewForm from "@/components/NewForm";
+import NewForm_formikComp from "@/components/NewForm-formikComp";
 
 export default function Home () {
   return (
@@ -8,7 +10,9 @@ export default function Home () {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Form Using Formik
           </h1>
-          <Form />
+          {/* <Form /> */}
+          {/* <NewForm /> */}
+          <NewForm_formikComp />
         </div>
       </div>
     </section>
