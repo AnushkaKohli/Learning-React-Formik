@@ -179,21 +179,16 @@ The `<ErrorMessage>` component can also contain a callback function or render pr
 }
 ```
 
-### Nested fields
+### Nested Fields in Formik
 
 Formik also supports nested fields.
 
 ```tsx
 const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    comments: "",
-    address: "",
     socials: {
         facebook: "",
         twitter: "",
-    }
+    },
 }
 
 <Field
@@ -201,6 +196,30 @@ const initialValues = {
     id="twitter"
     name="socials.twitter"
     placeholder="https://twitter.com/username"
+    className="formInput"
+/>
+```
+
+### Array Fields in Formik
+
+Formik also supports array fields.
+
+```tsx
+const initialValues = {
+    phonenumbers: ["", ""],
+}
+<Field
+    type="text"
+    id="phone1"
+    name="phonenumbers[0]"
+    placeholder="123-456-7890"
+    className="formInput"
+/>
+<Field
+    type="text"
+    id="phone2"
+    name="phonenumbers[1]"
+    placeholder="123-456-7890"
     className="formInput"
 />
 ```

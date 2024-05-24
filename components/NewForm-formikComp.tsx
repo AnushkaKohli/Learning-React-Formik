@@ -15,7 +15,8 @@ const initialValues = {
     socials: {
         facebook: "",
         twitter: "",
-    }
+    },
+    phonenumbers: ["", ""],
 }
 
 const onSubmit = (values: any) => {
@@ -179,6 +180,38 @@ const NewForm_formikComp = () => {
                         className="formInput"
                     />
                     <ErrorMessage name="socials.twitter" component="div" className="error" />
+                </div>
+                <div>
+                    <label
+                        htmlFor="phone1"
+                        className="labelTag"
+                    >
+                        Phone 1
+                    </label>
+                    <Field
+                        type="text"
+                        id="phone1"
+                        name="phonenumbers[0]"
+                        placeholder="123-456-7890"
+                        className="formInput"
+                    />
+                    <ErrorMessage name="phonenumbers[0]" component="div" className="error" />
+                </div>
+                <div>
+                    <label
+                        htmlFor="phone2"
+                        className="labelTag"
+                    >
+                        Phone 2
+                    </label>
+                    <Field
+                        type="text"
+                        id="phone2"
+                        name="phonenumbers[1]"
+                        placeholder="123-456-7890"
+                        className="formInput"
+                    />
+                    <ErrorMessage name="phonenumbers[1]" component="div" className="error" />
                 </div>
                 <button
                     type="submit"
