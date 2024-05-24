@@ -223,3 +223,9 @@ const initialValues = {
     className="formInput"
 />
 ```
+
+### `<FieldArray>` Component: Dynamic Array Fields Using Render Prop Pattern
+
+The `<FieldArray>` component is used to handle dynamic array fields. It is used to render an array of fields. The `name` prop is used to specify the name of the array field.
+
+```tsx

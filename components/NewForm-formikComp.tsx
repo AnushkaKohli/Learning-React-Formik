@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
 
 import './styles.css';
@@ -17,6 +17,7 @@ const initialValues = {
         twitter: "",
     },
     phonenumbers: ["", ""],
+    friends: [""],
 }
 
 const onSubmit = (values: any) => {
@@ -212,6 +213,49 @@ const NewForm_formikComp = () => {
                         className="formInput"
                     />
                     <ErrorMessage name="phonenumbers[1]" component="div" className="error" />
+                </div>
+
+                <div>
+                    <label htmlFor="friends">List of Friends</label>
+                    <FieldArray name="friends">
+                        {
+                            (fieldArrayProps) => {
+                                // console.log("FieldArrayProps: ", fieldArrayProps);
+                                const { push, remove, form } = fieldArrayProps;
+                                const { values } = form;
+                                const { friends } = values;
+                                return (
+                                    <div className="flex flex-col gap-4">
+                                        {
+                                            friends.map((friend: any, index: number) => (
+                                                <div key={index} className="flex">
+                                                    <Field name={`friends[${index}]`} className="formInput" />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => push("")}
+                                                        className="text-white bg-blue-600 hover:bg-blue-700 rounded-full px-4 py-2 m-2"
+                                                    >
+                                                        +
+                                                    </button>
+                                                    {
+                                                        index > 0 && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => remove(index)}
+                                                                className="text-white bg-red-600 hover:bg-red-700 rounded-full px-4 py-2 m-2"
+                                                            >
+                                                                -
+                                                            </button>
+                                                        )
+                                                    }
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
+                        }
+                    </FieldArray>
                 </div>
                 <button
                     type="submit"
