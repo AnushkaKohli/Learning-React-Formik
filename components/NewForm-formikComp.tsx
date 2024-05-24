@@ -4,12 +4,18 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+import './styles.css';
+
 const initialValues = {
     name: "",
     email: "",
     password: "",
     comments: "",
     address: "",
+    socials: {
+        facebook: "",
+        twitter: "",
+    }
 }
 
 const onSubmit = (values: any) => {
@@ -28,6 +34,10 @@ const validationSchema = Yup.object({
         .required("Required"),
     comments: Yup.string().required("Required"),
     address: Yup.string().required("Required"),
+    socials: Yup.object({
+        facebook: Yup.string().required("Required"),
+        twitter: Yup.string().required("Required"),
+    }).required("Required"),
 });
 
 const NewForm_formikComp = () => {
@@ -41,7 +51,7 @@ const NewForm_formikComp = () => {
                 <div>
                     <label
                         htmlFor="name"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        className="labelTag block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Full name
                     </label>
@@ -50,14 +60,14 @@ const NewForm_formikComp = () => {
                         id="name"
                         name="name"
                         placeholder="Emelia Erickson"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="formInput bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
-                    <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
+                    <ErrorMessage name="name" component="div" className="error text-red-500 text-sm mt-1" />
                 </div>
                 <div>
                     <label
                         htmlFor="email"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        className="labelTag"
                     >
                         Email
                     </label>
@@ -66,14 +76,14 @@ const NewForm_formikComp = () => {
                         id="email"
                         name="email"
                         placeholder="emelia_erickson24@gmail.com"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="formInput"
                     />
-                    <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+                    <ErrorMessage name="email" component="div" className="error" />
                 </div>
                 <div>
                     <label
                         htmlFor="password"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        className="labelTag"
                     >
                         Password
                     </label>
@@ -82,14 +92,14 @@ const NewForm_formikComp = () => {
                         id="password"
                         name="password"
                         placeholder="••••••••"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="formInput"
                     />
-                    <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+                    <ErrorMessage name="password" component="div" className="error" />
                 </div>
                 <div>
                     <label
                         htmlFor="comments"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        className="labelTag"
                     >
                         Comments
                     </label>
@@ -98,18 +108,18 @@ const NewForm_formikComp = () => {
                         id="comments"
                         name="comments"
                         placeholder="Your comments here..."
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="formInput"
                     />
                     <ErrorMessage name="comments">
                         {(errorMsg) =>
-                            <div className="text-red-500 text-sm mt-1">{errorMsg}</div>
+                            <div className="error">{errorMsg}</div>
                         }
                     </ErrorMessage>
                 </div>
                 <div>
                     <label
                         htmlFor="address"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        className="labelTag"
                     >
                         Address
                     </label>
@@ -125,10 +135,10 @@ const NewForm_formikComp = () => {
                                             name="address"
                                             placeholder="1234 Main St"
                                             {...field}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            className="formInput"
                                         />
                                         {meta.touched && meta.error && (
-                                            <div className="text-red-500 text-sm mt-1">
+                                            <div className="error">
                                                 {meta.error}
                                             </div>
                                         )}
@@ -137,6 +147,38 @@ const NewForm_formikComp = () => {
                             }
                         }
                     </Field>
+                </div>
+                <div>
+                    <label
+                        htmlFor="facebook"
+                        className="labelTag"
+                    >
+                        Facebook
+                    </label>
+                    <Field
+                        type="text"
+                        id="facebook"
+                        name="socials.facebook"
+                        placeholder="https://www.facebook.com/username"
+                        className="formInput"
+                    />
+                    <ErrorMessage name="socials.facebook" component="div" className="error" />
+                </div>
+                <div>
+                    <label
+                        htmlFor="twitter"
+                        className="labelTag"
+                    >
+                        Twitter
+                    </label>
+                    <Field
+                        type="text"
+                        id="twitter"
+                        name="socials.twitter"
+                        placeholder="https://twitter.com/username"
+                        className="formInput"
+                    />
+                    <ErrorMessage name="socials.twitter" component="div" className="error" />
                 </div>
                 <button
                     type="submit"
