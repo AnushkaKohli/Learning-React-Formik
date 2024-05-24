@@ -8,6 +8,8 @@ const initialValues = {
     name: "",
     email: "",
     password: "",
+    comments: "",
+    address: "",
 }
 
 const onSubmit = (values: any) => {
@@ -24,6 +26,8 @@ const validationSchema = Yup.object({
         .matches(/[0-9]/, "Password must contain at least one number")
         .matches(/[@$!%*?&]/, "Password must contain at least one special character")
         .required("Required"),
+    comments: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
 });
 
 const NewForm_formikComp = () => {
@@ -81,6 +85,58 @@ const NewForm_formikComp = () => {
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                     <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+                </div>
+                <div>
+                    <label
+                        htmlFor="comments"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                        Comments
+                    </label>
+                    <Field
+                        as="textarea"
+                        id="comments"
+                        name="comments"
+                        placeholder="Your comments here..."
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    />
+                    <ErrorMessage name="comments">
+                        {(errorMsg) =>
+                            <div className="text-red-500 text-sm mt-1">{errorMsg}</div>
+                        }
+                    </ErrorMessage>
+                </div>
+                <div>
+                    <label
+                        htmlFor="address"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                        Address
+                    </label>
+                    <Field name="address">
+                        {
+                            (props: any) => {
+                                const { field, form, meta } = props;
+                                return (
+                                    <div>
+                                        <input
+                                            type="text"
+                                            id="address"
+                                            name="address"
+                                            placeholder="1234 Main St"
+                                            {...field}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        />
+                                        {meta.touched && meta.error && (
+                                            <div className="text-red-500 text-sm mt-1">
+                                                {meta.error}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            }
+                        }
+                    </Field>
                 </div>
                 <button
                     type="submit"

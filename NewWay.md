@@ -101,6 +101,46 @@ import { Formik, Form, Field } from "formik";
 </Formik>
 ```
 
+#### Render Prop in `<Field>` Component
+
+`<Field>` can also contain a callback function or render prop to render a custom component. The render prop receives an object with the following properties:
+
+- `field`: An object with the necessary props to handle form state and form events. Eg. `value`, `onChange`, `onBlur`, `name`.
+- `form`: An object with the form state and form helpers. Eg. `values`, `errors`, `touched`, `handleChange`, `handleBlur`.
+- `meta`: An object with the field's metadata. Eg. `error`, `touched`, `initialValue`, `value`.
+
+```tsx
+<div>
+    <label htmlFor="address">
+        Address
+    </label>
+    <Field name="address">
+    {
+        (props: any) => {
+            const { field, form, meta } = props;
+            return (
+                <div>
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="1234 Main St"
+                        {...field}
+                    />
+                    {meta.touched && meta.error && (
+                        <div className="text-red-500 text-sm mt-1">
+                            {meta.error}
+                        </div>
+                    )}
+                    </div>
+                );
+            }
+        }
+    </Field>
+    <ErrorMessage name="address" component="div" className="text-red-500 text-sm mt-1" />
+</div>
+```
+
 ### `<ErrorMessage>` Component
 
 The `<ErrorMessage>` component is used to display error messages. It is used to display the error message for a specific field. The `name` prop is used to specify the field for which the error message should be displayed only if the field has been visited and the error message exists.
@@ -123,3 +163,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
     </Form>
 </Formik>
 ```
+
+#### Custom Error Message : Render Prop in `<ErrorMessage>` Component
+
+The `<ErrorMessage>` component can also contain a callback function or render prop to render a custom error message. The render prop receives the error message as an argument.
+
+```tsx
+<ErrorMessage name="address">
+{
+    (error: string) => (
+        <div className="text-red-500 text-sm mt-1">
+            {error}
+        </div>
+    )
+}
