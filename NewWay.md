@@ -310,3 +310,88 @@ While using `<Field>` component, Formik will re-render the entire form whenever 
     }
 </FastField>
 ```
+
+## When does Formik runs validation?
+
+Formik runs validation on the following events:
+
+- When the form is submitted. (`onSubmit` event)
+- When you have clicked on an input field and then clicked outside (`onBlur` event)
+- When you have changed the value of that field. (`onChange` event)
+
+Formik provides two ways to disable this automatic validation for `onBlur` and `onChange` events:
+
+- `validateOnBlur`: It is used to disable validation on the `onBlur` event.
+- `validateOnChange`: It is used to disable validation on the `onChange` event.
+
+```tsx
+<Formik 
+    initialValues={initialValues}
+    validationSchema={validationSchema}
+    validateOnBlur={false}
+    validateOnChange={false}
+    onSubmit={onSubmit}
+>
+</Formik>
+```
+
+### Field Level Validation
+
+Formik provides a `validate` prop to perform field level validation. The `validate` prop is a function that receives the form values as an argument and returns an object with the errors.
+
+```tsx
+const validateComments = (value: string) => {
+    let error;
+    if (!value) {
+        error = "Required";
+    }
+    return error;
+}
+<Field
+    as="textarea"
+    id="comments"
+    name="comments"
+    placeholder="Your comments here..."
+    validate={validateComments}
+    className="formInput"
+/>
+```
+
+### Render Props Pattern in `<Formik>` Component
+
+The `<Formik>` component can also contain a callback function or render prop to render the form.
+
+```tsx
+<Formik 
+    initialValues={initialValues}
+    validationSchema={validationSchema}
+    onSubmit={onSubmit}
+>
+    {
+        (formikProps) => {
+            // formikProps contains the form state and form helpers
+            const { handleSubmit, values, errors, touched, handleChange, handleBlur } = formikProps;
+            return (
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        placeholder="Emelia Erickson"
+                        className="formInput"
+                    />
+                    {touched.name && errors.name && (
+                        <div className="error">
+                            {errors.name}
+                        </div>
+                    )}
+                    <button type="submit">Submit</button>
+                </form>
+            )
+        }
+    }
+</Formik>
+```
