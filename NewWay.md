@@ -229,3 +229,84 @@ const initialValues = {
 The `<FieldArray>` component is used to handle dynamic array fields. It is used to render an array of fields. The `name` prop is used to specify the name of the array field.
 
 ```tsx
+const initialValues = {
+    friends: [""],
+}
+
+<label htmlFor="friends">List of Friends</label>
+<FieldArray name="friends">
+    {
+        (fieldArrayProps) => {
+            // fieldArrayProps contains the necessary props to handle array fields
+            const { push, remove, form } = fieldArrayProps;
+            // form contains the form state and form helpers including values and errors
+            const { values } = form;
+            // extracting the friends array from the values object
+            const { friends } = values;
+            return (
+                <div className="flex flex-col gap-4">
+                    {
+                        friends.map((friend: any, index: number) => (
+                            <div key={index} className="flex">
+                                <Field name={`friends[${index}]`} className="formInput" />
+                                <button
+                                    type="button"
+                                    onClick={() => push("")}
+                                >
+                                    +
+                                </button>
+                                {
+                                    index > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => remove(index)}
+                                        >
+                                            -
+                                        </button>
+                                    )
+                                }
+                            </div>
+                        ))
+                    }
+                </div>
+            )
+        }
+    }
+</FieldArray>
+```
+
+### `<FastField>` Component
+
+The `<FastField>` component is meant for optimization when using forms with more than 30 fields.
+
+While using `<Field>` component, Formik will re-render the entire form whenever the form state changes of any field. This can be a performance issue when the form has more than 30 fields.
+
+`<FastField>` only re-renders the field that has changed.
+
+```tsx
+<FastField name="address">
+    {
+        (props: any) => {
+            console.log("FieldProps: ", props);
+            const { field, form, meta } = props;
+            return (
+                <div>
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        placeholder="1234 Main St"
+                        {...field}
+                        className="formInput"
+                    />
+                    {meta.touched && meta.error && (
+                        <div className="error">
+                            {meta.error}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+    }
+</FastField>
+```

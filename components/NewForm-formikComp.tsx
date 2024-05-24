@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray, FastField } from "formik";
 import * as Yup from "yup";
 
 import './styles.css';
@@ -125,9 +125,10 @@ const NewForm_formikComp = () => {
                     >
                         Address
                     </label>
-                    <Field name="address">
+                    <FastField name="address">
                         {
                             (props: any) => {
+                                console.log("FieldProps: ", props);
                                 const { field, form, meta } = props;
                                 return (
                                     <div>
@@ -148,7 +149,7 @@ const NewForm_formikComp = () => {
                                 );
                             }
                         }
-                    </Field>
+                    </FastField>
                 </div>
                 <div>
                     <label
